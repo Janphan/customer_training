@@ -21,23 +21,49 @@ function Training() {
   };
 
   const [colDefs, setColDefs] = useState([
-    { field: "date", filter: true, },
+    { field: "customer", filter: true },
+    { field: "date", filter: true },
     { field: "duration", filter: true },
     { field: "activity", filter: true },
-    // { field: "customer", filter: true },
-    // {
-    //   cellRenderer: (params) => (
-    //     <Button
-    //       size="small"
-    //       color="error"
-    //       onClick={() => addTraining()}
-    //       //addtraining
-    //     >
-    //       Delete
-    //     </Button>
-    //   ),
-    //   width: 150,
-    // },
+    {
+      cellRenderer: (params) => (
+        <Button
+          size="small"
+          color="error"
+          onClick={() => addTraining()}
+          //addtraining
+        >
+          Add
+        </Button>
+      ),
+      width: 150,
+    },
+    {
+      cellRenderer: (params) => (
+        <Button
+          size="small"
+          color="error"
+          onClick={() => updateTraining()}
+          //updatetraining
+        >
+          Update
+        </Button>
+      ),
+      width: 150,
+    },
+    {
+      cellRenderer: (params) => (
+        <Button
+          size="small"
+          color="error"
+          onClick={() => deleteTraining()}
+          //delete training
+        >
+          Delete
+        </Button>
+      ),
+      width: 150,
+    },
   ]);
   return (
     <>
