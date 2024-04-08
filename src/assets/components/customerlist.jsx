@@ -5,6 +5,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 import Button from "@mui/material/Button";
+import { getCustomers } from "../../customerTrainingAPI";
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -13,15 +14,7 @@ function Customerlist() {
     fetchCustomer();
   }, []);
   const fetchCustomer = () => {
-    fetch(
-      "https://customerrestservice-personaltraining.rahtiapp.fi/api/customers"
-    )
-      .then((response) => {
-        if (!response.ok)
-          throw new Error("Error in fetch" + response.statusText);
-
-        return response.json();
-      })
+    getCustomers()
       .then((data) => setCustomer(data._embedded.customers))
       .catch((err) => console.error(err));
   };

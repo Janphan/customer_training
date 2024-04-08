@@ -5,46 +5,39 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 import Button from "@mui/material/Button";
+import { getTraining } from "../../customerTrainingAPI";
 
 function Training() {
   const [training, setTraining] = useState([]);
 
   useEffect(() => {
-    fetchTraing();
+    fetchTraining();
   }, []);
 
-  const fetchTraing = () => {
-    fetch(
-      "https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings"
-    )
-      .then((response) => {
-        if (!response.ok)
-          throw new Error("Error in fetch" + response.statusText);
-
-        return response.json();
-      })
-      .then((data) => setCustomer(data._embedded.trainings))
+  const fetchTraining = () => {
+    getTraining()
+      .then((data) => setTraining(data._embedded.trainings))
       .catch((err) => console.error(err));
   };
 
   const [colDefs, setColDefs] = useState([
-    { field: "date", filter: true },
+    { field: "date", filter: true, },
     { field: "duration", filter: true },
     { field: "activity", filter: true },
-    { field: "customer", filter: true },
-    {
-      cellRenderer: (params) => (
-        <Button
-          size="small"
-          color="error"
-          onClick={() => addTraining()}
-          //addtraining
-        >
-          Delete
-        </Button>
-      ),
-      width: 150,
-    },
+    // { field: "customer", filter: true },
+    // {
+    //   cellRenderer: (params) => (
+    //     <Button
+    //       size="small"
+    //       color="error"
+    //       onClick={() => addTraining()}
+    //       //addtraining
+    //     >
+    //       Delete
+    //     </Button>
+    //   ),
+    //   width: 150,
+    // },
   ]);
   return (
     <>
