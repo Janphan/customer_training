@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-theme-material.css";
 
 import Button from "@mui/material/Button";
 import { getTraining } from "../../customerTrainingAPI";
+import dayjs from "dayjs";
 
 function Training() {
   const [training, setTraining] = useState([]);
@@ -22,7 +23,8 @@ function Training() {
 
   const [colDefs, setColDefs] = useState([
     { field: "customer", filter: true },
-    { field: "date", filter: true },
+    { field: "date", filter: true, valueFormatter: (params) =>
+    dayjs(params.value).format("DD.MM.YYYY HH:mm") },
     { field: "duration", filter: true },
     { field: "activity", filter: true },
     {
