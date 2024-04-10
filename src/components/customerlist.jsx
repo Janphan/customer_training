@@ -5,7 +5,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 import Button from "@mui/material/Button";
-import { getCustomers } from "../../customerTrainingAPI";
+import { getCustomers } from "../customerTrainingAPI";
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);

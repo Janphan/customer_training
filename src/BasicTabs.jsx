@@ -7,8 +7,8 @@ import Box from "@mui/material/Box";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Customerlist from "./assets/components/customerlist";
-import Training from "./assets/components/training";
+import Customerlist from "./components/customerlist";
+import Training from "./components/training";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

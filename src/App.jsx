@@ -7,9 +7,10 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Card, Tab } from "@mui/material";
-import Customerlist from "./assets/components/customerlist";
+import Customerlist from "./components/customerlist";
+import Training from "./components/training";
 import BasicTabs from "./BasicTabs";
-import Training from "./assets/components/training";
+
 function App() {
   const [count, setCount] = useState(0);
 
