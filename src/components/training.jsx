@@ -4,7 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import dayjs from "dayjs";
-import { getCustomerTraining, getTraining } from "../customerTrainingAPI";
+import { getTraining, getCustomers } from "../customerTrainingAPI";
 
 function Training() {
   const [training, setTraining] = useState([]);
@@ -25,20 +25,32 @@ function Training() {
     },
   ]);
 
-  const fetchTraining = () => {
-  getCustomerTraining()
-  .then (data => {
-    const formattedTrainings = data.map(training => ({
-      ...training,
-      customer: `${training.firstname} ${training.lastname}`
-    }))
-    setTraining(formattedTrainings);
-  })
-  .catch((err) => console.error(err));
-  };
+  
   useEffect(() => {
-    fetchTraining();
+    fetchTrainingAndCustomer();
   }, []);
+
+  const fetchTrainingAndCustomer = () => {
+    fetch("https://traineeapp.azurewebsites.net/gettrainings")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Error fetching data: " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const formattedData = data.map(item => ({
+          ...item,
+          customerName: `${item.customer.firstname} ${item.customer.lastname}`
+        }));
+        setTraining(formattedData);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  };
+
+
   return (
     <div className="ag-theme-material" style={{ height: 600 }}>
       <AgGridReact
