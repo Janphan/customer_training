@@ -15,41 +15,40 @@ function Training() {
         dayjs(params.data.date).format("DD.MM.YYYY HH:mm"),
       filter: true,
     },
-    { field: "duration", filter: true },
-    { field: "activity", filter: true },
     {
       headerName: "Customer's name",
       valueGetter: (params) =>
         params.data.customer.firstname + " " + params.data.customer.lastname,
       filter: true,
     },
+    { field: "activity", filter: true },
+    { field: "duration", filter: true },
   ]);
 
-  
   useEffect(() => {
     fetchTrainingAndCustomer();
   }, []);
 
   const fetchTrainingAndCustomer = () => {
     fetch("https://traineeapp.azurewebsites.net/gettrainings")
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error("Error fetching data: " + response.statusText);
         }
         return response.json();
       })
-      .then(data => {
-        const formattedData = data.map(item => ({
+      .then((data) => {
+        const formattedData = data.map((item) => ({
           ...item,
-          customerName: `${item.customer.firstname} ${item.customer.lastname}`
+          customerName: `${item.customer.firstname} ${item.customer.lastname}`,
         }));
         setTraining(formattedData);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
+        npm;
       });
   };
-
 
   return (
     <div className="ag-theme-material" style={{ height: 600 }}>
