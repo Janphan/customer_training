@@ -26,8 +26,8 @@ function Training() {
     { field: "duration", filter: true },
     {
       cellRenderer: (params) => (
-        <Button size="small" onClick={() => editCustomer()}>
-          Edit
+        <Button size="small" onClick={() => addTraining()}>
+          Add
         </Button>
       ),
       width: 150,

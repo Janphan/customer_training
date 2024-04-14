@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
+import Button from "@mui/material/Button";
+import { getCustomers } from "../customerTrainingAPI";
+import AddCustomer from "./AddCustomer";
+
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
-
-import Button from "@mui/material/Button";
-import { getCustomers } from "../customerTrainingAPI";
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -56,7 +57,7 @@ function Customerlist() {
       width: 150,
     },
   ]);
-
+ //delete customer
   const deleteCustomer = (url) => {
     if (window.confirm("Are you sure to delete this customer?")) {
       fetch(url, { method: "DELETE" })
@@ -70,8 +71,24 @@ function Customerlist() {
         .catch((err) => console.error(err));
     }
   };
+  //add customer
+  const addCustomer = (newCustomer) => {
+    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/customers", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(newCustomer),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Error when adding customer");
+        return response.json();
+      })
+      .then(() => fetchCustomer())
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
+    <AddCustomer addCustomer={addCustomer}/>
       <div className="ag-theme-material" style={{ height: 600 }}>
         <AgGridReact
           rowData={customer}
