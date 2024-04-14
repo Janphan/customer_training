@@ -5,6 +5,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import dayjs from "dayjs";
 import { getTraining, getCustomers } from "../customerTrainingAPI";
+import Button from "@mui/material/Button";
 
 function Training() {
   const [training, setTraining] = useState([]);
@@ -23,6 +24,14 @@ function Training() {
     },
     { field: "activity", filter: true },
     { field: "duration", filter: true },
+    {
+      cellRenderer: (params) => (
+        <Button size="small" onClick={() => editCustomer()}>
+          Edit
+        </Button>
+      ),
+      width: 150,
+    },
   ]);
 
   useEffect(() => {
@@ -57,6 +66,10 @@ function Training() {
         columnDefs={colDefs}
         pagination={true}
         paginationAutoPageSize={true}
+        domLayout="autoHeight"
+        onFirstDataRendered={(params) => {
+          params.api.sizeColumnsToFit();
+        }}
       />
     </div>
   );

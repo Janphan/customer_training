@@ -28,29 +28,46 @@ function Customerlist() {
     { field: "email", filter: true },
     { field: "phone", filter: true },
     {
-        cellRenderer: (params) => (
-          <Button
-            size="small"
-            color="error"
-            onClick={() => deleteCustomer(params.data._links.customer.href)}
-          >
-            Delete
-          </Button>
-        ),
-        width: 150,
-      },
+      cellRenderer: (params) => (
+        <Button
+          size="small"
+          color="error"
+          onClick={() => deleteCustomer(params.data._links.customer.href)}
+        >
+          Delete
+        </Button>
+      ),
+      width: 150,
+    },
+    {
+      cellRenderer: (params) => (
+        <Button size="small" onClick={() => addCustomer()}>
+          Add
+        </Button>
+      ),
+      width: 150,
+    },
+    {
+      cellRenderer: (params) => (
+        <Button size="small" onClick={() => editCustomer()}>
+          Edit
+        </Button>
+      ),
+      width: 150,
+    },
   ]);
 
   const deleteCustomer = (url) => {
     if (window.confirm("Are you sure to delete this customer?")) {
-      fetch(url, { method: "DELETE" }).then((response) => {
-        if (!response.ok)
-          throw new Error("Error in deletion: " + response.statusText);
+      fetch(url, { method: "DELETE" })
+        .then((response) => {
+          if (!response.ok)
+            throw new Error("Error in deletion: " + response.statusText);
 
-        return response.json();
-      })
-      .then(() => fetchCustomer())
-      .catch((err) => console.error(err));
+          return response.json();
+        })
+        .then(() => fetchCustomer())
+        .catch((err) => console.error(err));
     }
   };
   return (
@@ -61,6 +78,10 @@ function Customerlist() {
           columnDefs={colDefs}
           pagination={true}
           paginationAutoPageSize={true}
+          domLayout="autoHeight"
+          onFirstDataRendered={(params) => {
+            params.api.sizeColumnsToFit();
+          }}
         />
       </div>
     </>
