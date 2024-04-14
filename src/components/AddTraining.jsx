@@ -53,7 +53,7 @@ export default function AddTraining({ addTraining }) {
   return (
     <>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Button onClick={handleClickOpen}>Add</Button>
+      <Button onClick={handleClickOpen}>Add New Training</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Traing</DialogTitle>
         <DialogContent>

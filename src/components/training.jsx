@@ -25,9 +25,15 @@ function Training() {
     },
     { field: "activity", filter: true },
     { field: "duration", filter: true },
-    {
+    { headerName: "Actions",
       cellRenderer: (params) => (
-        <AddTraining data={params.data} addTraining={addTraing}/>
+        <Button 
+          size="small"
+          color="error"
+          onClick={() => deleteTraining(params.data.id)}
+        >
+          Delete
+        </Button>
       ),
       width: 150,
     },
@@ -73,7 +79,24 @@ function Training() {
       .then(() => fetchTrainingAndCustomer())
       .catch((err) => console.error(err));
   };
+
+  //delete training
+  const deleteTraining = (id) => {
+    if (window.confirm("Are you sure to delete this customer?")) {
+      fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+ id, { method: "DELETE" })
+        .then((response) => {
+          if (!response.ok)
+            throw new Error("Error in deletion: " + response.statusText);
+
+          return response.json();
+        })
+        .then(() => fetchTrainingAndCustomer())
+        .catch((err) => console.error(err));
+    }
+  };
   return (
+    <>
+    <AddTraining addTraining={addTraing}/>
     <div className="ag-theme-material" style={{ height: 600 }}>
       <AgGridReact
         rowData={training}
@@ -86,6 +109,7 @@ function Training() {
         }}
       />
     </div>
+    </>
   );
 }
 
