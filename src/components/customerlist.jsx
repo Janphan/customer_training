@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { getCustomers } from "../customerTrainingAPI";
 import AddCustomer from "./AddCustomer";
+import EditCustomer from "./EditCustomer";
 
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -28,18 +29,7 @@ function Customerlist() {
     { field: "city", filter: true, width: 150 },
     { field: "email", filter: true },
     { field: "phone", filter: true },
-    {
-      cellRenderer: (params) => (
-        <Button
-          size="small"
-          color="error"
-          onClick={() => deleteCustomer(params.data._links.customer.href)}
-        >
-          Delete
-        </Button>
-      ),
-      width: 150,
-    },
+    
     {
       cellRenderer: (params) => (
         <Button size="small" onClick={() => addCustomer()}>
@@ -50,8 +40,18 @@ function Customerlist() {
     },
     {
       cellRenderer: (params) => (
-        <Button size="small" onClick={() => editCustomer()}>
-          Edit
+        <EditCustomer data={params.data} editCustomer={editCustomer}/>
+      ),
+      width: 150,
+    },
+    {
+      cellRenderer: (params) => (
+        <Button 
+          size="small"
+          color="error"
+          onClick={() => deleteCustomer(params.data._links.customer.href)}
+        >
+          Delete
         </Button>
       ),
       width: 150,
@@ -80,6 +80,20 @@ function Customerlist() {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Error when adding customer");
+        return response.json();
+      })
+      .then(() => fetchCustomer())
+      .catch((err) => console.error(err));
+  };
+  //edit customer
+  const editCustomer = (url, editedCustomer) => {
+    fetch(url, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(editedCustomer),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Error when updating customer");
         return response.json();
       })
       .then(() => fetchCustomer())
