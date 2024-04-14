@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import dayjs from "dayjs";
 import { getTraining, getCustomers } from "../customerTrainingAPI";
 import Button from "@mui/material/Button";
+import AddTraining from "./AddTraining";
 
 function Training() {
   const [training, setTraining] = useState([]);
@@ -26,9 +27,7 @@ function Training() {
     { field: "duration", filter: true },
     {
       cellRenderer: (params) => (
-        <Button size="small" onClick={() => addTraining()}>
-          Add
-        </Button>
+        <AddTraining data={params.data} addTraining={addTraing}/>
       ),
       width: 150,
     },
@@ -49,7 +48,10 @@ function Training() {
       .then((data) => {
         const formattedData = data.map((item) => ({
           ...item,
-          customerName: `${item.customer.firstname} ${item.customer.lastname}`,
+          customer: item.customer ? item.customer : {},
+          customerName: item.customer 
+          ? `${item.customer.firstname} ${item.customer.lastname}`
+          : '',
         }));
         setTraining(formattedData);
       })
@@ -58,7 +60,19 @@ function Training() {
         npm;
       });
   };
-
+  const addTraing = (newTraining) => {
+    fetch("https://traineeapp.azurewebsites.net/gettrainings", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(newTraining),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Error when adding traing");
+        return response.json();
+      })
+      .then(() => fetchTrainingAndCustomer())
+      .catch((err) => console.error(err));
+  };
   return (
     <div className="ag-theme-material" style={{ height: 600 }}>
       <AgGridReact
