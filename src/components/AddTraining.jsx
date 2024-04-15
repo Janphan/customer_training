@@ -8,39 +8,31 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { getCustomers } from "../customerTrainingAPI";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
-export default function AddTraining({ addTraining }) {
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+
+export default function AddTraining({addTraining}) {
   const [open, setOpen] = useState(false);
+  const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [training, setTraining] = useState({
-    date: null,
+    date: "",
     activity: "",
     duration: "",
-    customerId: "",
+    customer: "",
   });
-
-  const [customers, setCustomers] = useState([]);
-
   useEffect(() => {
-    fetchCustomers(); // Call the fetchCustomers function here
+    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/customers")
+      .then((response) => response.json())
+      .then((data) => setFetchedCustomers(data._embedded.customers || []))
+      .catch((error) => console.error("Error fetching customers:", error));
   }, []);
-
-  const fetchCustomers = async () => {
-    try {
-      const customerData = await getCustomers();
-      setCustomers(customerData._embedded.customers);
-    } catch (error) {
-      console.error("Error fetching customers:", error);
-    }
-  };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -54,39 +46,37 @@ export default function AddTraining({ addTraining }) {
     setTraining({ ...training, [name]: value });
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
+  const handleSave = () => {
     addTraining(training);
-    setTraining({
-      date: "",
-      activity: "",
-      duration: "",
-      customerId: "",
-    });
     handleClose();
   };
+
   return (
     <>
       <Button onClick={handleClickOpen}>Add New Training</Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Traing</DialogTitle>
+        <DialogTitle>New Training</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To add more traing, fill in the training's information in the form
           </DialogContentText>
-
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-              onChange={(value) => {
-                setTraining({
-                  ...training,
-                  date: value.$d.toISOString(),
-                });
-              }}
-              label="Training Date and Time"
-            />
-          </LocalizationProvider>
-
+          
+          <FormControl fullWidth>
+            <InputLabel id="customer-select-label">Customer</InputLabel>
+            <Select
+              labelId="customer-select-label"
+              id="customer-select"
+              value={training.customer}
+              onChange={handleChange}
+              name="customer"
+            >
+              {fetchedCustomers.map((customer) => (
+                <MenuItem key={fetchedCustomers._links.self.href} value={fetchedCustomers._links.self.href}>
+                  {customer.firstname} {customer.lastname}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             margin="dense"
             name="activity"
@@ -96,10 +86,22 @@ export default function AddTraining({ addTraining }) {
             fullWidth
             variant="standard"
           />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              onChange={(newValue) => {
+                setTraining({
+                  ...training,
+                  date: newValue.$d.toISOString(),
+                });
+              }}
+              label="Training Date and Time"
+            />
+          </LocalizationProvider>
+
           <TextField
             margin="dense"
-            label="duration"
-            name="Duration"
+            label="Duration"
+            name="duration"
             value={training.duration}
             onChange={handleChange}
             fullWidth

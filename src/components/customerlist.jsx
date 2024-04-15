@@ -108,7 +108,7 @@ function Customerlist() {
           rowData={customer}
           columnDefs={colDefs}
           pagination={true}
-          paginationAutoPageSize={true}
+          // paginationAutoPageSize={true}
           domLayout="autoHeight"
           onFirstDataRendered={(params) => {
             params.api.sizeColumnsToFit();

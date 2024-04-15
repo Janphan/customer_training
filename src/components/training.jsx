@@ -10,6 +10,7 @@ import AddTraining from "./AddTraining";
 
 function Training() {
   const [training, setTraining] = useState([]);
+
   const [colDefs] = useState([
     {
       headerName: "Date",
@@ -66,7 +67,7 @@ function Training() {
         npm;
       });
   };
-  const addTraing = (newTraining) => {
+  const addTraining = (newTraining) => {
     fetch("https://traineeapp.azurewebsites.net/gettrainings", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -97,13 +98,13 @@ function Training() {
 
   return (
     <>
-    <AddTraining addTraining={addTraing}/>
+    <AddTraining addTraining={addTraining}/>
     <div className="ag-theme-material" style={{ height: 600 }}>
       <AgGridReact
         rowData={training}
         columnDefs={colDefs}
         pagination={true}
-        paginationAutoPageSize={true}
+        // paginationAutoPageSize={true}
         domLayout="autoHeight"
         onFirstDataRendered={(params) => {
           params.api.sizeColumnsToFit();
