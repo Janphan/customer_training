@@ -67,8 +67,9 @@ function Training() {
         npm;
       });
   };
+
   const addTraining = (newTraining) => {
-    fetch("https://traineeapp.azurewebsites.net/gettrainings", {
+    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(newTraining),

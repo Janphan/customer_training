@@ -18,7 +18,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
-export default function AddTraining({addTraining}) {
+export default function AddTraining({ addTraining }) {
   const [open, setOpen] = useState(false);
   const [fetchedCustomers, setFetchedCustomers] = useState([]);
   const [training, setTraining] = useState({
@@ -27,13 +27,20 @@ export default function AddTraining({addTraining}) {
     duration: "",
     customer: "",
   });
-  useEffect(() => {
-    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/customers")
-      .then((response) => response.json())
-      .then((data) => setFetchedCustomers(data._embedded.customers || []))
-      .catch((error) => console.error("Error fetching customers:", error));
-  }, []);
+  const [selectedCustomer, setSelectedCustomer] = useState();
+
+  // useEffect(() => {
+  //   fetchCustomer();
+  // }, []);
+
+  const fetchCustomer = () => {
+    getCustomers()
+      .then((data) => setFetchedCustomers(data._embedded.customers))
+      .catch((err) => console.error(err));
+  };
+
   const handleClickOpen = () => {
+    fetchCustomer();
     setOpen(true);
   };
 
@@ -43,6 +50,11 @@ export default function AddTraining({addTraining}) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log("name");
+    console.log(name);
+    console.log("value");
+    console.log(value);
+    setSelectedCustomer(value);
     setTraining({ ...training, [name]: value });
   };
 
@@ -60,21 +72,25 @@ export default function AddTraining({addTraining}) {
           <DialogContentText>
             To add more traing, fill in the training's information in the form
           </DialogContentText>
-          
+
           <FormControl fullWidth>
             <InputLabel id="customer-select-label">Customer</InputLabel>
             <Select
               labelId="customer-select-label"
               id="customer-select"
-              value={training.customer}
+              value={selectedCustomer}
               onChange={handleChange}
               name="customer"
             >
-              {fetchedCustomers.map((customer) => (
-                <MenuItem key={fetchedCustomers._links.self.href} value={fetchedCustomers._links.self.href}>
-                  {customer.firstname} {customer.lastname}
-                </MenuItem>
-              ))}
+              {Array.isArray(fetchedCustomers) &&
+                fetchedCustomers.map((customer, index) => (
+                  <MenuItem
+                    key={index}
+                    value={customer.firstname + " " + customer.lastname}
+                  >
+                    {customer.firstname} {customer.lastname}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <TextField
