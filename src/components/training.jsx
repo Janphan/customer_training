@@ -44,7 +44,7 @@ function Training() {
   }, []);
 
   const fetchTrainingAndCustomer = () => {
-    fetch("https://traineeapp.azurewebsites.net/gettrainings")
+    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/gettrainings")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error fetching data: " + response.statusText);
@@ -82,18 +82,19 @@ function Training() {
 
   //delete training
   const deleteTraining = (id) => {
-    if (window.confirm("Are you sure to delete this customer?")) {
-      fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+ id, { method: "DELETE" })
-        .then((response) => {
-          if (!response.ok)
-            throw new Error("Error in deletion: " + response.statusText);
-
+    if (window.confirm('Are you sure you want to delete this record?')) {
+      fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+ id, {method: 'DELETE'})
+      .then(response => {
+          if (!response.ok) {
+              throw new Error("Error in deletion: " + response.statusText);
+          }
           return response.json();
-        })
+      })
         .then(() => fetchTrainingAndCustomer())
         .catch((err) => console.error(err));
     }
   };
+
   return (
     <>
     <AddTraining addTraining={addTraing}/>
