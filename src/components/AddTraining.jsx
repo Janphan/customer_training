@@ -13,9 +13,9 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 export default function AddTraining({ addTraining }) {
   const [open, setOpen] = useState(false);
@@ -25,19 +25,22 @@ export default function AddTraining({ addTraining }) {
     duration: "",
     customerId: "",
   });
+
   const [customers, setCustomers] = useState([]);
+
   useEffect(() => {
-    fetchCustomers();
+    fetchCustomers(); // Call the fetchCustomers function here
   }, []);
 
   const fetchCustomers = async () => {
     try {
-      const data = await getCustomers();
-      setCustomers(data._embedded.customers);
+      const customerData = await getCustomers();
+      setCustomers(customerData._embedded.customers);
     } catch (error) {
       console.error("Error fetching customers:", error);
     }
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -46,13 +49,24 @@ export default function AddTraining({ addTraining }) {
     setOpen(false);
   };
 
-  const handleSave = () => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTraining({ ...training, [name]: value });
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
     addTraining(training);
+    setTraining({
+      date: "",
+      activity: "",
+      duration: "",
+      customerId: "",
+    });
     handleClose();
   };
   return (
     <>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Button onClick={handleClickOpen}>Add New Training</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Traing</DialogTitle>
@@ -61,62 +75,42 @@ export default function AddTraining({ addTraining }) {
             To add more traing, fill in the training's information in the form
           </DialogContentText>
 
-          <DatePicker
-            label="Date"
-            value={training.date}
-            onChange={(newValue) => setTraining({ ...training, date: newValue })}
-            renderInput={(params) => (
-              <TextField {...params} variant="standard" />
-            )}
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              onChange={(value) => {
+                setTraining({
+                  ...training,
+                  date: value.$d.toISOString(),
+                });
+              }}
+              label="Training Date and Time"
+            />
+          </LocalizationProvider>
 
-       
           <TextField
             margin="dense"
             name="activity"
             label="Activity"
             value={training.activity}
-            onChange={(e) =>
-              setTraining({ ...training, activity: e.target.value })
-            }
+            onChange={handleChange}
             fullWidth
             variant="standard"
           />
           <TextField
             margin="dense"
             label="duration"
-            name="duration"
+            name="Duration"
             value={training.duration}
-            onChange={(e) =>
-              setTraining({ ...training, duration: e.target.value })
-            }
+            onChange={handleChange}
             fullWidth
             variant="standard"
           />
-          <FormControl fullWidth>
-            <InputLabel id="customer-select-label">Customer</InputLabel>
-            <Select
-              labelId="customer-select-label"
-              value={training.customerId}
-              onChange={(e) =>
-                setTraining({ ...training, customerId: e.target.value })
-              }
-              fullWidth
-            >
-              {customers.map((customer) => (
-                <MenuItem key={customer.id} value={customer.id}>
-                  {customer.firstname} {customer.lastname}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSave}>Save</Button>
         </DialogActions>
       </Dialog>
-      </LocalizationProvider>
     </>
   );
 }
