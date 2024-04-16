@@ -10,6 +10,9 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import AddTraining from "./AddTraining";
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
 
@@ -46,13 +49,13 @@ function Customerlist() {
     },
     {
       cellRenderer: (params) => (
-        <Button
+        <IconButton
           size="small"
           color="error"
           onClick={() => deleteCustomer(params.data._links.customer.href)}
         >
-          Delete
-        </Button>
+          <DeleteIcon/>
+        </IconButton>
       ),
       width: 150,
     },

@@ -10,6 +10,7 @@ import { Card, Tab } from "@mui/material";
 import Customerlist from "./components/customerlist";
 import Training from "./components/training";
 import BasicTabs from "./BasicTabs";
+import SidebarMenu from "./SidebarMenu";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,6 +24,7 @@ function App() {
           </Toolbar>
         </AppBar>
         <BasicTabs/>
+        <SidebarMenu/>
       </Container>
     </>
   );

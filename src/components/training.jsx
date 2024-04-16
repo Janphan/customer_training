@@ -8,6 +8,9 @@ import { getTraining, getCustomers } from "../customerTrainingAPI";
 import Button from "@mui/material/Button";
 import AddTraining from "./AddTraining";
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+
 function Training() {
   const [training, setTraining] = useState([]);
 
@@ -28,13 +31,13 @@ function Training() {
     { field: "duration", filter: true },
     { headerName: "Actions",
       cellRenderer: (params) => (
-        <Button 
+        <IconButton 
           size="small"
           color="error"
           onClick={() => deleteTraining(params.data.id)}
         >
-          Delete
-        </Button>
+         < DeleteIcon/>
+        </IconButton>
       ),
       width: 150,
     },
@@ -104,7 +107,7 @@ function Training() {
         rowData={training}
         columnDefs={colDefs}
         pagination={true}
-        // paginationAutoPageSize={true}
+        paginationAutoPageSize={true}
         domLayout="autoHeight"
         onFirstDataRendered={(params) => {
           params.api.sizeColumnsToFit();
