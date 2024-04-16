@@ -99,7 +99,6 @@ function Training() {
 
   return (
     <>
-    <AddTraining addTraining={addTraining}/>
     <div className="ag-theme-material" style={{ height: 600 }}>
       <AgGridReact
         rowData={training}

@@ -7,40 +7,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { getCustomers } from "../customerTrainingAPI";
-
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 
-export default function AddTraining({ addTraining }) {
+
+export default function AddTraining(props) {
   const [open, setOpen] = useState(false);
-  const [fetchedCustomers, setFetchedCustomers] = useState([]);
+
   const [training, setTraining] = useState({
     date: "",
     activity: "",
     duration: "",
-    customer: "",
+    customer: props.customer._links.customer.href,
   });
-  const [selectedCustomer, setSelectedCustomer] = useState();
-
-  // useEffect(() => {
-  //   fetchCustomer();
-  // }, []);
-
-  const fetchCustomer = () => {
-    getCustomers()
-      .then((data) => setFetchedCustomers(data._embedded.customers))
-      .catch((err) => console.error(err));
-  };
 
   const handleClickOpen = () => {
-    fetchCustomer();
     setOpen(true);
   };
 
@@ -50,22 +33,21 @@ export default function AddTraining({ addTraining }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("name");
-    console.log(name);
-    console.log("value");
-    console.log(value);
-    setSelectedCustomer(value);
     setTraining({ ...training, [name]: value });
   };
 
   const handleSave = () => {
-    addTraining(training);
+    const newTrainingCustomer = {
+      ...training,
+      customer: props.customer._links.customer.href,
+    };
+    props.addTraining(newTrainingCustomer);
     handleClose();
   };
 
   return (
     <>
-      <Button onClick={handleClickOpen}>Add New Training</Button>
+      <Button onClick={handleClickOpen}>Add</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Training</DialogTitle>
         <DialogContent>
@@ -73,26 +55,6 @@ export default function AddTraining({ addTraining }) {
             To add more traing, fill in the training's information in the form
           </DialogContentText>
 
-          <FormControl fullWidth>
-            <InputLabel id="customer-select-label">Customer</InputLabel>
-            <Select
-              labelId="customer-select-label"
-              id="customer-select"
-              value={selectedCustomer}
-              onChange={handleChange}
-              name="customer"
-            >
-              {Array.isArray(fetchedCustomers) &&
-                fetchedCustomers.map((customer, index) => (
-                  <MenuItem
-                    key={index}
-                    value={customer.firstname + " " + customer.lastname}
-                  >
-                    {customer.firstname} {customer.lastname}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
           <TextField
             margin="dense"
             name="activity"

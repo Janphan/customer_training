@@ -8,6 +8,7 @@ import EditCustomer from "./EditCustomer";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import AddTraining from "./AddTraining";
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -15,6 +16,7 @@ function Customerlist() {
   useEffect(() => {
     fetchCustomer();
   }, []);
+
   const fetchCustomer = () => {
     getCustomers()
       .then((data) => setCustomer(data._embedded.customers))
@@ -29,24 +31,22 @@ function Customerlist() {
     { field: "city", filter: true, width: 150 },
     { field: "email", filter: true },
     { field: "phone", filter: true },
-    
+
     {
       cellRenderer: (params) => (
-        <Button size="small" onClick={() => addCustomer()}>
-          Add
-        </Button>
+        <AddTraining addTraining={addTraining} customer={params.data} />
       ),
       width: 150,
     },
     {
       cellRenderer: (params) => (
-        <EditCustomer data={params.data} editCustomer={editCustomer}/>
+        <EditCustomer data={params.data} editCustomer={editCustomer} />
       ),
       width: 150,
     },
     {
       cellRenderer: (params) => (
-        <Button 
+        <Button
           size="small"
           color="error"
           onClick={() => deleteCustomer(params.data._links.customer.href)}
@@ -57,7 +57,7 @@ function Customerlist() {
       width: 150,
     },
   ]);
- //delete customer
+  //delete customer
   const deleteCustomer = (url) => {
     if (window.confirm("Are you sure to delete this customer?")) {
       fetch(url, { method: "DELETE" })
@@ -73,11 +73,14 @@ function Customerlist() {
   };
   //add customer
   const addCustomer = (newCustomer) => {
-    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/customers", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(newCustomer),
-    })
+    fetch(
+      "https://customerrestservice-personaltraining.rahtiapp.fi/api/customers",
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(newCustomer),
+      }
+    )
       .then((response) => {
         if (!response.ok) throw new Error("Error when adding customer");
         return response.json();
@@ -99,10 +102,30 @@ function Customerlist() {
       .then(() => fetchCustomer())
       .catch((err) => console.error(err));
   };
-
+  //add training
+  const addTraining = (trainingData) => {
+    fetch(
+      "https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(trainingData),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            "Error when adding a Training: " + response.statusText
+          );
+        }
+        return response.json();
+      })
+      .then(() => fetchCustomer())
+      .catch((err) => console.error(err));
+  };
   return (
     <>
-    <AddCustomer addCustomer={addCustomer}/>
+      <AddCustomer addCustomer={addCustomer} />
       <div className="ag-theme-material" style={{ height: 600 }}>
         <AgGridReact
           rowData={customer}
