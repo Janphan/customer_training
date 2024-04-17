@@ -10,7 +10,7 @@ import { Card, Tab } from "@mui/material";
 import Customerlist from "./components/customerlist";
 import Training from "./components/training";
 import BasicTabs from "./BasicTabs";
-import SidebarMenu from "./SidebarMenu";
+import DropdownMenu from "./DropdownMenu";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,10 +21,12 @@ function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6">Customer training application</Typography>
+            
           </Toolbar>
         </AppBar>
-        <BasicTabs/>
-        <SidebarMenu/>
+        
+        {/* <BasicTabs/> */}
+        <DropdownMenu/>
       </Container>
     </>
   );
