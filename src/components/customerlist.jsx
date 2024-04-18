@@ -10,8 +10,11 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import AddTraining from "./AddTraining";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+
+import { CSVLink } from "react-csv";
+import CustomerListExport from "./CustomerListExport";
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -54,7 +57,7 @@ function Customerlist() {
           color="error"
           onClick={() => deleteCustomer(params.data._links.customer.href)}
         >
-          <DeleteIcon/>
+          <DeleteIcon />
         </IconButton>
       ),
       width: 150,
@@ -126,9 +129,13 @@ function Customerlist() {
       .then(() => fetchCustomer())
       .catch((err) => console.error(err));
   };
+
   return (
     <>
       <AddCustomer addCustomer={addCustomer} />
+    
+      {/* Include the CustomerListExport component */}
+      <CustomerListExport customer={customer} />
       <div className="ag-theme-material" style={{ height: 600 }}>
         <AgGridReact
           rowData={customer}

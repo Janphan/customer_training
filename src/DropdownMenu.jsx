@@ -40,8 +40,8 @@ export default function DropdownMenu() {
       </Menu>
       {selectedItem === "Customer" && <Customerlist />}
       {selectedItem === "Training" && <Training />}
-      {selectedItem === "Training" && <Calendar />}
-      {selectedItem === "Training" && <AnalysisTraining />}
+      {selectedItem === "Calendar" && <Calendar />}
+      {selectedItem === "Stats" && <AnalysisTraining />}
     </Dropdown>
   );
 }
