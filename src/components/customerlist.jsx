@@ -15,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 
 import { CSVLink } from "react-csv";
 import CustomerListExport from "./CustomerListExport";
+import '../Style.css';
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -135,7 +136,7 @@ function Customerlist() {
       <AddCustomer addCustomer={addCustomer} />
     
       {/* Include the CustomerListExport component */}
-      <CustomerListExport customer={customer} />
+      <Button><CustomerListExport customer={customer} /></Button>
       <div className="ag-theme-material" style={{ height: 600 }}>
         <AgGridReact
           rowData={customer}

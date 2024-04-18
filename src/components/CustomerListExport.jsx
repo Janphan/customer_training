@@ -1,5 +1,4 @@
 import { CSVLink } from 'react-csv';
-
 const CustomerListExport = ({ customer }) => {
   const csvHeaders = [
     { label: "First Name", key: "firstname" },
@@ -12,7 +11,8 @@ const CustomerListExport = ({ customer }) => {
   ];
 
   return (
-    <CSVLink data={customer} headers={csvHeaders} filename="customer-list.csv">
+    <CSVLink data={customer} headers={csvHeaders} filename="customer-list.csv"
+    className="export-button">
       Export to CSV
     </CSVLink>
   );
