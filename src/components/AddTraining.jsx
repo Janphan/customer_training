@@ -11,6 +11,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
+import IconButton from "@mui/material/IconButton";
+import AddIcon from '@mui/icons-material/Add';
+
 
 
 export default function AddTraining(props) {
@@ -47,7 +50,9 @@ export default function AddTraining(props) {
 
   return (
     <>
-      <Button onClick={handleClickOpen}>Add</Button>
+      <IconButton  size="small" onClick={handleClickOpen}>
+        <AddIcon/>
+      </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Training</DialogTitle>
         <DialogContent>

@@ -7,6 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function EditCustomer({data, editCustomer}){
   const [open, setOpen] = useState(false);
@@ -43,9 +45,9 @@ export default function EditCustomer({data, editCustomer}){
   };
   return (
     <>
-      <Button  onClick={handleClickOpen}>
-        Edit
-      </Button>
+      <IconButton  size="small" onClick={handleClickOpen}>
+        <EditIcon/>
+      </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Customer</DialogTitle>
         <DialogContent>

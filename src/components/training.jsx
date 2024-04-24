@@ -19,16 +19,16 @@ function Training() {
       headerName: "Date",
       valueGetter: (params) =>
         dayjs(params.data.date).format("DD.MM.YYYY HH:mm"),
-      filter: true,
+      filter: true,  floatingFilter: true 
     },
     {
       headerName: "Customer's name",
       valueGetter: (params) =>
         params.data.customer.firstname + " " + params.data.customer.lastname,
-      filter: true,
+      filter: true, floatingFilter: true
     },
-    { field: "activity", filter: true },
-    { field: "duration", filter: true },
+    { field: "activity", filter: true, floatingFilter: true },
+    { field: "duration", filter: true , floatingFilter: true},
     { headerName: "Actions",
       cellRenderer: (params) => (
         <IconButton 

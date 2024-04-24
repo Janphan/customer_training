@@ -31,13 +31,13 @@ function Customerlist() {
   };
 
   const [colDefs, setColDefs] = useState([
-    { field: "firstname", filter: true, width: 150 },
-    { field: "lastname", filter: true, width: 150 },
-    { field: "streetaddress", filter: true },
-    { field: "postcode", filter: true, width: 100 },
-    { field: "city", filter: true, width: 150 },
-    { field: "email", filter: true },
-    { field: "phone", filter: true },
+    { field: "firstname", filter: true, width: 150},
+    { field: "lastname", filter: true, width: 150, floatingFilter: true },
+    { field: "streetaddress", filter: true, floatingFilter: true },
+    { field: "postcode", filter: true, width: 100, floatingFilter: true},
+    { field: "city", filter: true, width: 150 , floatingFilter: true},
+    { field: "email", filter: true , floatingFilter: true},
+    { field: "phone", filter: true , floatingFilter: true},
 
     {
       cellRenderer: (params) => (
