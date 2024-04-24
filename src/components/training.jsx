@@ -10,7 +10,7 @@ import AddTraining from "./AddTraining";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-
+import { styled } from '@mui/system';
 function Training() {
   const [training, setTraining] = useState([]);
 
@@ -99,9 +99,16 @@ function Training() {
         .catch((err) => console.error(err));
     }
   };
-
+  const StyledHeading = styled('h1')(
+    ({ theme }) => `
+    text-align: center; // Center the text
+    font-family: 'IBM Plex Sans', sans-serif; // Set your custom font
+    color: #318CE7; // Set the text color to blue
+    `
+  );
   return (
     <>
+    <StyledHeading>Training List</StyledHeading>
     <div className="ag-theme-material" style={{ height: 600 }}>
       <AgGridReact
         rowData={training}

@@ -16,6 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import { CSVLink } from "react-csv";
 import CustomerListExport from "./CustomerListExport";
 import '../Style.css';
+import { styled } from '@mui/system';
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -43,13 +44,13 @@ function Customerlist() {
       cellRenderer: (params) => (
         <AddTraining addTraining={addTraining} customer={params.data} />
       ),
-      width: 150,
+      width: 100,
     },
     {
       cellRenderer: (params) => (
         <EditCustomer data={params.data} editCustomer={editCustomer} />
       ),
-      width: 150,
+      width: 100,
     },
     {
       cellRenderer: (params) => (
@@ -61,7 +62,7 @@ function Customerlist() {
           <DeleteIcon />
         </IconButton>
       ),
-      width: 150,
+      width: 100,
     },
   ]);
   //delete customer
@@ -130,9 +131,16 @@ function Customerlist() {
       .then(() => fetchCustomer())
       .catch((err) => console.error(err));
   };
-
+  const StyledHeading = styled('h1')(
+    ({ theme }) => `
+    text-align: center; // Center the text
+    font-family: 'IBM Plex Sans', sans-serif; // Set your custom font
+    color: #318CE7; // Set the text color to blue
+    `
+  );
   return (
     <>
+    <StyledHeading >Customer List</StyledHeading>
       <AddCustomer addCustomer={addCustomer} />
     
       {/* Include the CustomerListExport component */}
@@ -142,7 +150,7 @@ function Customerlist() {
           rowData={customer}
           columnDefs={colDefs}
           pagination={true}
-          // paginationAutoPageSize={true}
+          paginationPageSize={10}
           domLayout="autoHeight"
           onFirstDataRendered={(params) => {
             params.api.sizeColumnsToFit();
