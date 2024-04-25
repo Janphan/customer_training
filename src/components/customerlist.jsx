@@ -82,7 +82,7 @@ function Customerlist() {
   //add customer
   const addCustomer = (newCustomer) => {
     fetch(
-      "https://customerrestservice-personaltraining.rahtiapp.fi/api/customers",
+      import.meta.env.VITE_API_URL+ "/api/customers",
       {
         method: "POST",
         headers: { "Content-type": "application/json" },

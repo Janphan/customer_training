@@ -4,9 +4,6 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import dayjs from "dayjs";
-import { getTraining, getCustomers } from "../customerTrainingAPI";
-import Button from "@mui/material/Button";
-import AddTraining from "./AddTraining";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -48,7 +45,7 @@ function Training() {
   }, []);
 
   const fetchTrainingAndCustomer = () => {
-    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/gettrainings")
+    fetch(import.meta.env.VITE_API_URL + "/gettrainings")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error fetching data: " + response.statusText);
@@ -72,7 +69,7 @@ function Training() {
   };
 
   const addTraining = (newTraining) => {
-    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings", {
+    fetch(import.meta.env.VITE_API_URL + "/api/trainings", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(newTraining),
@@ -88,7 +85,7 @@ function Training() {
   //delete training
   const deleteTraining = (id) => {
     if (window.confirm('Are you sure you want to delete this record?')) {
-      fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/"+ id, {method: 'DELETE'})
+      fetch(import.meta.env.VITE_API_URL+ "/api/trainings/"+ id, {method: 'DELETE'})
       .then(response => {
           if (!response.ok) {
               throw new Error("Error in deletion: " + response.statusText);
