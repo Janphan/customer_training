@@ -16,7 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import { CSVLink } from "react-csv";
 import CustomerListExport from "./CustomerListExport";
 import '../Style.css';
-import { styled } from '@mui/system';
+import { StyledHeading } from "./style";
 
 function Customerlist() {
   const [customer, setCustomer] = useState([]);
@@ -32,11 +32,11 @@ function Customerlist() {
   };
 
   const [colDefs, setColDefs] = useState([
-    { field: "firstname", filter: true, width: 150},
+    { field: "firstname", filter: true, width: 150,  floatingFilter: true},
     { field: "lastname", filter: true, width: 150, floatingFilter: true },
-    { field: "streetaddress", filter: true, floatingFilter: true },
-    { field: "postcode", filter: true, width: 100, floatingFilter: true},
-    { field: "city", filter: true, width: 150 , floatingFilter: true},
+    { field: "streetaddress", filter: true},
+    { field: "postcode", filter: true, width: 150},
+    { field: "city", filter: true, width: 150 },
     { field: "email", filter: true , floatingFilter: true},
     { field: "phone", filter: true , floatingFilter: true},
 
@@ -131,13 +131,7 @@ function Customerlist() {
       .then(() => fetchCustomer())
       .catch((err) => console.error(err));
   };
-  const StyledHeading = styled('h1')(
-    ({ theme }) => `
-    text-align: center; // Center the text
-    font-family: 'IBM Plex Sans', sans-serif; // Set your custom font
-    color: #318CE7; // Set the text color to blue
-    `
-  );
+
   return (
     <>
     <StyledHeading >Customer List</StyledHeading>

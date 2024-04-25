@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { getTraining } from "../customerTrainingAPI";
 import _ from "lodash";
+import { StyledHeading, CenteredContainer } from "./style";
 
 const AnalysisTraining = () => {
   const [activityStats, setActivityStats] = useState([]);
@@ -36,19 +37,20 @@ const AnalysisTraining = () => {
 
     fetchTrainingData(); // Fetch data on component mount
   }, []); // Run once on component mount
-
+  
   return (
     <div>
-      <h2>Training Statistics</h2>
+      <StyledHeading>Training Statistics</StyledHeading>
+      <CenteredContainer>
       <BarChart
         width={600} // Set width
         height={300} // Set height
         data={activityStats} // Pass calculated statistics
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="activity">
-          <Label value="Training Activity" offset={0} position="insideBottom" />{" "}
+          <Label value="Training Activity" offset={-10} position="insideBottom" />{" "}
           {/* X-axis name */}
         </XAxis>
         <YAxis>
@@ -60,8 +62,9 @@ const AnalysisTraining = () => {
           {/* Y-axis name */}
         </YAxis>
         <Tooltip /> // Show tooltip on hover
-        <Bar dataKey="totalDuration" fill="#82ca9d" /> // Bar with fill color
+        <Bar dataKey="totalDuration" fill="#4B9CD3" /> // Bar with fill color
       </BarChart>
+      </CenteredContainer>
     </div>
   );
 };

@@ -1,9 +1,10 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 # customer_training
+Customer - Training information App with these functions:
+- Add/Edit/Filter/Delete (New) Customers.
+- Add/Filter/Delete (New) Training.
+- Export customers' information.
+- Calendar to see trainings.
+- Statistics page where users can see durations by activities.
+
+# Deploy webpage:
+URL: https://janphan.github.io/customer_training/
