@@ -1,8 +1,7 @@
-import { useState } from "react";
+
 import Container from "@mui/material/Container";
 
-import SearchAppBar from "./SearchAppbar";
-import MenuDropdown from "./MenuDropdown";
+import Appbar from "./Appbar.jsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Customerlist from "./components/customerlist";
@@ -15,7 +14,7 @@ function App() {
       <Container maxWidth="xl">        
         <Router>
           {" "}
-          <SearchAppBar />
+          <Appbar />
           <Routes>
             {/* Define individual routes and map them to components */}
             <Route path="/Customerlist" element={<Customerlist />} />

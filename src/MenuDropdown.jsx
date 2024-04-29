@@ -16,7 +16,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export default function MenuDropdown(props) {
+export default function MenuDropdown() {
   const [open, setOpen] = React.useState(false);
 
   // Define icons

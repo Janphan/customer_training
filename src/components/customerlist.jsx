@@ -13,7 +13,6 @@ import AddTraining from "./AddTraining";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-import { CSVLink } from "react-csv";
 import CustomerListExport from "./CustomerListExport";
 import '../Style.css';
 import { StyledHeading } from "./style";
